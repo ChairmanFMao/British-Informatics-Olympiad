@@ -1,4 +1,4 @@
-# British-Informatics-Olympiad
+# British Informatics Olympiad Solutions
 These are my solution to the British informatics olympiad round 1 questions, from 2012 to 2021.
 
 For each question I have attempted to comment most of my code, to try to explain my thought process.
