@@ -12,6 +12,8 @@ l = int(l)
 # Ideally I don't want to be storing the strings and improve the efficiency of the valid algorithm
 # Thinking of switching to a dfs for ease of implementation
 # Switched to a dfs as it is faster, still doesn't handle the biggest inputs well
+# This solution gets like 18/24, I have looked online and haven't really found an algorithm that
+# works a lot faster for bigger inputs, all of them time out for the largest test case
 
 # better O(n) complexity
 def valid(s,toAdd):
@@ -24,9 +26,8 @@ def valid(s,toAdd):
     
     if smallest < toAdd:
         for i in range(len(used)):
-            if not used[i]:
-                if toAdd < chr(i+65):
-                    return 0
+            if not used[i] and toAdd < chr(i+65):
+                return 0
     return 1
 
 # This sets up the used list and characters that are possible to use
