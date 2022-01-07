@@ -20,7 +20,7 @@ if int("".join(out)) < int(n):
 # and we have to put the zero there, otherwise the extra character is accounted for.
 if ":" in out:
     start = str(int(n[:len(n)//2]) + 1)
-    out = list(start + ("0" if len(start) == len(n[:len(n)//2]) else "") + start[::-1])
+    out = list(start + ("0" if len(start) == len(n[:len(n)//2]) and start[-1] != "0" else "") + start[::-1])
 
 print("".join(out))
 
