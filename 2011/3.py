@@ -63,7 +63,7 @@ def a():
 
     print(left+mid+right)
 
-# a()
+a()
 
 """
 Part b:
