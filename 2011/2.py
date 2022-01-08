@@ -14,9 +14,7 @@ def shuffle(seed,cards):
     shuffled = []
     sptr = 0
     while cards:
-        for i in range(seed[sptr]-1):
-            ptr = (ptr + 1) % len(cards)
-        ptr %= len(cards)
+        ptr = (ptr + seed[sptr]-1) % len(cards)
         shuffled.append(cards.pop(ptr))
         sptr = (sptr + 1) % len(seed)
 
@@ -133,3 +131,60 @@ cards = shuffle(seed,cards)
 print(" ".join([str(i) for i in strat1(deepcopy(cards))]))
 print(" ".join([str(i) for i in strat2(deepcopy(cards))]))
 print(" ".join([str(i) for i in strat3(deepcopy(cards))]))
+
+"""
+Part b:
+2C KC 3H KH 4S KS 2D KD 4C 2H 7H 5S
+"""
+
+# print(" ".join([i[0] for i in shuffle([2,11,3,10,4,9],deepcopy(cards))[:12]]))
+
+"""
+Part c:
+10^6 isn't that bad, potentially brute force
+then the same for the second part, it is just like 11^6 which isn't that different
+
+for digits 1-9:
+531441
+
+for digits 1-10:
+1000000
+
+Both of these are wrong but, I can't seem to get the code to work,
+1-9 is off by like 7 and 1-10 is off by a few thousand, not sure why, might fix later
+"""
+
+def c(limit):
+    def shuffle(seed,cards):
+        ptr = 0
+        shuffled = ""
+        for i in seed:
+            ptr = (ptr + i-1) % len(cards)
+            shuffled += cards.pop(ptr)
+
+        return shuffled
+
+    allCards = []
+    for i in ["C","H","S","D"]:
+        for j in ["A","2","3","4","5","6","7","8","9","T","J","Q","K"]:
+            allCards.append(j + i)
+    possible = set()
+    for i in range(1,limit):
+        for j in range(1,limit):
+            for k in range(1,limit):
+                for l in range(1,limit):
+                    for m in range(1,limit):
+                        for n in range(1,limit):
+                            possible.add(shuffle([i,j,k,l,m,n],deepcopy(allCards)))
+    print(len(possible))
+
+c(10)
+c(11)
+
+"""
+Part d:
+Yes this is always possible, as when creating the first pile in the game, you
+are adding one card onto another that will be next to each other in the final
+single pile, this leads to there being two cards that can be placed on one
+another when the single pile has been dealt from the top down.
+"""
