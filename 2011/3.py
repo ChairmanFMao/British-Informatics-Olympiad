@@ -1,4 +1,4 @@
-from math import ceil, perm
+from math import ceil
 from itertools import permutations
 
 def a():
