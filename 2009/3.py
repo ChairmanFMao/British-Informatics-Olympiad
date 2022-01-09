@@ -1,36 +1,31 @@
-# This code works for the lower numbers but, starts to fail with bigger inputs for some reason
-# Read question, blocks only from 1 to 9, misinterpreted problem in a bad way
-# My current code works if all values of blocks are allowed
+# Read question fully, blocks only from 1 to 9, misinterpreted problem in a bad way
+# My current code works if all values of blocks are allowed, changed code to work properly
 
 def a():
     s, n = [int(i) for i in input().split()]
 
     # I think that you can use dynamic programming here
-    # The number of ways to make the arrangments just goes up in powers of 2
-    # I think that you could find the number of numbers using pascal's triangle
-
-    # This code finds the number of numbers that make up the combination
-
-    n -= 1
-    power = s-2
-    current = 0
+    # This generates the number of combinations to generate a total using dp
+    dp = [0 for i in range(s+1)]
+    dp[0] = 1
+    for i in range(1,s+1):
+        for j in range(1,10):
+            if i >= j:
+                dp[i] += dp[i-j]
+    
     out = []
-    # This makes the loop continue until finished
+    # This keeps the loop going until the total is reached
     while sum(out) < s:
-        count = 0
-        # Loops over the powers of 2 from big to small
-        for i in range(power,-2,-1):
-            # Prevents pow(2,-1)
-            if i == -1:
-                i = 0
-            count += 1
-            # Checks if the current one is right
-            if current + pow(2,i) > n:
-                out.append(count)
-                power -= count
+        # This loops through all of the possible ancestors
+        for i in range(1,s-sum(out)+1):
+            # If the number of solutions is less than n, it isn't right so we decrement n
+            if n > dp[s-i-sum(out)]:
+                n -= dp[s-i-sum(out)]
+            # Otherwise, the number is right, we append it to out and continue further
+            else:
+                out.append(i)
                 break
-            current += pow(2,i)
-
+    
     print(" ".join([str(i) for i in out]))
 
 a()
