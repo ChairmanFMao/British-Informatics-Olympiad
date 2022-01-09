@@ -4,12 +4,15 @@
 
 from copy import deepcopy
 from queue import PriorityQueue
+from time import time
 
 def a():
     INF = 1e9
     j, n = [int(i) for i in input().split()]
     maxJugs = [int(i) for i in input().split()]
     jugs = [0 for i in range(j)]
+
+    start = time()
 
     dist = {}
 
@@ -27,16 +30,16 @@ def a():
                 for l in range(maxJugs[2]+1):
                     dist[tuple([i,k,l])] = INF
 
-    queue = PriorityQueue()
-    queue.put([0,jugs])
+    queue = []
+    queue.append([0,jugs])
     dist[tuple(jugs)] = 0
     out = 0
-    while not queue.empty():
-        current = queue.get()
+    while len(queue):
+        current = queue.pop(0)
         # Checks if any of the jugs contain n
         for i in range(j):
             if current[1][i] == n:
-                print(current[0])
+                print(current[0],time()-start)
                 out = 1
                 break
         if out:
@@ -50,13 +53,13 @@ def a():
             if normal < maxJugs[i] and dist[tuple(current[1])] > current[0]+1:
                 copy = deepcopy(current[1])
                 dist[tuple(current[1])] = current[0]+1
-                queue.put([current[0]+1,copy])
+                queue.append([current[0]+1,copy])
             # Empties jugs
             current[1][i] = 0
             if normal > 0 and dist[tuple(current[1])] > current[0]+1:
                 copy = deepcopy(current[1])
                 dist[tuple(current[1])] = current[0]+1
-                queue.put([current[0]+1,copy])
+                queue.append([current[0]+1,copy])
             current[1][i] = normal
         
         # Pours from one jug into another jug
@@ -73,7 +76,7 @@ def a():
                     if dist[tuple(current[1])] > current[0]+1:
                         copy = deepcopy(current[1])
                         dist[tuple(current[1])] = current[0]+1
-                        queue.put([current[0]+1,copy])
+                        queue.append([current[0]+1,copy])
                     current[1][i] = originali
                     current[1][k] = originalk
 
