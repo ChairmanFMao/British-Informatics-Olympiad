@@ -1,58 +1,82 @@
 # Currently solution is quite inefficient and just dies with larger input
+# I think this is due to the heavy use of the deepcopy and inefficient bfs
+# I think that I also need to reconsider how the stuff is being stored, something for tomorrow
 
 from copy import deepcopy
+from queue import PriorityQueue
 
 def a():
+    INF = 1e9
     j, n = [int(i) for i in input().split()]
-    # The first number in the list is the capacity, the second is how much it is filled
-    jugs = [[int(i),0] for i in input().split()]
+    maxJugs = [int(i) for i in input().split()]
+    jugs = [0 for i in range(j)]
 
-    # I think the strategy is to just do a bfs, there are only like 3 operations possible at each stage
-    # I don't think that Dijkstra's is applicable as the states are too varied, not sure how well this
-    # is going to do with bigger test cases
+    dist = {}
 
-    # This stores all of the information about a current state
-    class State:
-        def __init__(self, jugs, moves):
-            self.jugs = deepcopy(jugs)
-            self.moves = moves
+    # This sets the initial distance to all states to INF(1e9)
+    if j == 1:
+        for i in range(maxJugs[0]+1):
+            dist[i] = INF
+    elif j == 2:
+        for i in range(maxJugs[0]+1):
+            for k in range(maxJugs[1]+1):
+                dist[tuple([i,k])] = INF
+    elif j == 3:
+        for i in range(maxJugs[0]+1):
+            for k in range(maxJugs[1]+1):
+                for l in range(maxJugs[2]+1):
+                    dist[tuple([i,k,l])] = INF
 
-    finished = 0
-    queue = [State(jugs,0)]
-    while len(queue) > 0:
-        current = queue.pop(0)
-        # This checks if any the current jugs have n oz in them
+    queue = PriorityQueue()
+    queue.put([0,jugs])
+    dist[tuple(jugs)] = 0
+    out = 0
+    while not queue.empty():
+        current = queue.get()
+        # Checks if any of the jugs contain n
         for i in range(j):
-            if current.jugs[i][1] == n:
-                print(current.moves)
-                finished = 1
+            if current[1][i] == n:
+                print(current[0])
+                out = 1
                 break
-        if finished:
+        if out:
             break
+
+        # Empties/fills jugs
+        for i in range(j):
+            normal = current[1][i]
+            # Fills jugs
+            current[1][i] = maxJugs[i]
+            if normal < maxJugs[i] and dist[tuple(current[1])] > current[0]+1:
+                copy = deepcopy(current[1])
+                dist[tuple(current[1])] = current[0]+1
+                queue.put([current[0]+1,copy])
+            # Empties jugs
+            current[1][i] = 0
+            if normal > 0 and dist[tuple(current[1])] > current[0]+1:
+                copy = deepcopy(current[1])
+                dist[tuple(current[1])] = current[0]+1
+                queue.put([current[0]+1,copy])
+            current[1][i] = normal
         
-        # This fills jugs from other jugs
+        # Pours from one jug into another jug
         for i in range(j):
             for k in range(j):
                 if i == k:
                     continue
-                if current.jugs[i][0] > current.jugs[i][1] and current.jugs[k][1] > 0:
-                    copy = State(current.jugs,current.moves+1)
-                    copy.jugs[i][1] += min(current.jugs[i][0] - current.jugs[i][1], current.jugs[k][1])
-                    copy.jugs[k][1] -= min(current.jugs[i][0] - current.jugs[i][1], current.jugs[k][1])
-                    queue.append(copy)
+                # Pouring from i to k
+                if current[1][i] > 0 and current[1][k] < maxJugs[k]:
+                    originali = current[1][i]
+                    originalk = current[1][k]
+                    current[1][i] -= min(maxJugs[k] - originalk, originali)
+                    current[1][k] += min(maxJugs[k] - originalk, originali)
+                    if dist[tuple(current[1])] > current[0]+1:
+                        copy = deepcopy(current[1])
+                        dist[tuple(current[1])] = current[0]+1
+                        queue.put([current[0]+1,copy])
+                    current[1][i] = originali
+                    current[1][k] = originalk
 
-        # This fills and empties jugs
-        for i in range(j):
-            # This fills up the jug if possible
-            if current.jugs[i][0] > current.jugs[i][1]:
-                copy = State(current.jugs,current.moves+1)
-                copy.jugs[i][1] = copy.jugs[i][0]
-                queue.append(copy)
-            # This empties a jug if possible
-            if current.jugs[i][1] > 0:
-                copy = State(current.jugs,current.moves+1)
-                copy.jugs[i][1] = 0
-                queue.append(copy)
 
 a()
 
