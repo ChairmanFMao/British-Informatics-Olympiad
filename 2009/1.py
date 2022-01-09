@@ -1,7 +1,9 @@
+# Read the question carefully for what the output should be
 def a():
     s = input()
 
     digits = ["ONE","TWO","THREE","FOUR","FIVE","SIX","SEVEN","EIGHT","NINE"]
+    numbers = {"ONE":1,"TWO":2,"THREE":3,"FOUR":4,"FIVE":5,"SIX":6,"SEVEN":7,"EIGHT":8,"NINE":9}
 
     good = 0
 
@@ -13,9 +15,9 @@ def a():
                 dptr += 1
             sptr += 1
         if dptr == len(i):
-            good = 1
+            good = numbers[i]
 
-    print("YES" if good else "NO")
+    print(good if good else "NO")
 
 a()
 

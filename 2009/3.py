@@ -1,3 +1,7 @@
+# This code works for the lower numbers but, starts to fail with bigger inputs for some reason
+# Read question, blocks only from 1 to 9, misinterpreted problem in a bad way
+# My current code works if all values of blocks are allowed
+
 def a():
     s, n = [int(i) for i in input().split()]
 
@@ -41,21 +45,9 @@ five blocks - 6
 seven blocks - 4
 eight blocks - 4
 nine blocks - 3
-ten blocks - 3
-eleven blocks - 2
-twelve blocks - 2
-thirteen blocks - 2
-fourteen blocks - 2
-fifteen blocks - 2
-sixteen blocks - 2
-seventeen blocks - 1
-eightteen blocks - 1
-nineteen blocks - 1
-twenty blocks - 1
-and 12 more blocks
 
 The sum of all these is:
-114 blocks
+88 blocks
 """
 
 """

@@ -45,24 +45,28 @@ def a():
                         continue
                     size = 0
                     letter = grid[j][k]
+                    used[j][k] = 1
                     working = []
                     queue.append([j,k])
                     while len(queue):
                         y, x = queue.pop(0)
-                        used[y][x] = 1
                         size += 1
                         working.append([y,x])
                         if y > 0:
                             if grid[y-1][x] == letter and not used[y-1][x]:
+                                used[y-1][x] = 1
                                 queue.append([y-1,x])
                         if y < 3:
                             if grid[y+1][x] == letter and not used[y+1][x]:
+                                used[y+1][x] = 1
                                 queue.append([y+1,x])
                         if x > 0:
                             if grid[y][x-1] == letter and not used[y][x-1]:
+                                used[y][x-1] = 1
                                 queue.append([y,x-1])
                         if x < 3:
                             if grid[y][x+1] == letter and not used[y][x+1]:
+                                used[y][x+1] = 1
                                 queue.append([y,x+1])
 
                     if size > 1:
