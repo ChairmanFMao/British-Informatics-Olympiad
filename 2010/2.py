@@ -122,9 +122,18 @@ There are 8 different ways to do it in 4 moves.
 There are (idk) different ways to do it in 6 moves.
 
 Unsure, I will come back to this later after doing question 3
+
+Turns out there are 160 ways, I enumerated the 4 move ones on paper, but it would've
+been way to much work to do it for 6 moves
 """
 
 """
 Part d:
 I don't think there is a way but, that is just a hunch
+
+Turns out there actually isn't the current numbers on the grid and the die's
+orientation and heading fully determine the state of simulation. There are only a finite
+number of different states, since there are only a finite number of states we must, eventually,
+encounter one for the second time, if we return to one of these states, then the sequence of moves
+will repeat and the die will be stuck in a loop.
 """

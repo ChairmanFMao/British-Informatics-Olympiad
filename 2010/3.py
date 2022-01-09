@@ -1,6 +1,8 @@
 # Currently solution is quite inefficient and just dies with larger input
 # I think this is due to the heavy use of the deepcopy and inefficient bfs
 # I think that I also need to reconsider how the stuff is being stored, something for tomorrow
+# Need to make algorithm as efficient as possible, not just to work for test case,
+# I was lazy and chose not to implement Dijkstra's intially, which was a silly mistake
 
 from copy import deepcopy
 
@@ -101,7 +103,9 @@ Then you have 2 oz in jug B in only 4 steps
 
 """
 Part c:
-Not sure about this one
+Not sure about this one, need to note that jugs are all of different size.
+
+Potentially, just write some code to brute force it.
 """
 
 """
