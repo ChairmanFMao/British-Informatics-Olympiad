@@ -3,16 +3,12 @@
 # I think that I also need to reconsider how the stuff is being stored, something for tomorrow
 
 from copy import deepcopy
-from queue import PriorityQueue
-from time import time
 
 def a():
     INF = 1e9
     j, n = [int(i) for i in input().split()]
     maxJugs = [int(i) for i in input().split()]
     jugs = [0 for i in range(j)]
-
-    start = time()
 
     dist = {}
 
@@ -30,8 +26,7 @@ def a():
                 for l in range(maxJugs[2]+1):
                     dist[tuple([i,k,l])] = INF
 
-    queue = []
-    queue.append([0,jugs])
+    queue = [[0,jugs]]
     dist[tuple(jugs)] = 0
     out = 0
     while len(queue):
@@ -39,7 +34,7 @@ def a():
         # Checks if any of the jugs contain n
         for i in range(j):
             if current[1][i] == n:
-                print(current[0],time()-start)
+                print(current[0])
                 out = 1
                 break
         if out:
