@@ -38,7 +38,7 @@ def a():
     score += permutations([],[i for i in range(5)])
     print(score)
 
-a()
+# a()
 
 """
 Part b:
@@ -47,7 +47,7 @@ Part b:
 
 """
 Part c:
-There is only one set of cards where they are distinct and the sum of the values is 15.
+There are 28 ways, read the question properly.
 """
 
 def c():
@@ -58,9 +58,9 @@ def c():
             for k in range(1,11):
                 for l in range(1,11):
                     for m in range(1,11):
-                        if len(set([i,j,k,l,m])) == 5 and sum([i,j,k,l,m]) == 15 and sorted([i,j,k,l,m]) not in used:
+                        if sum([i,j,k,l,m]) == 15 and sorted([i,j,k,l,m]) not in used and len(set([i,j,k,l,m])) > 1:
                             used.append(sorted([i,j,k,l,m]))
                             out += 1
     print(out)
 
-# c()
+c()
