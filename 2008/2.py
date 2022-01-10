@@ -61,7 +61,9 @@ BCBCDB
 
 """
 Part c:
-I have found one way that works.
+I have found four ways that work.
+
+I didn't think of how to apply this for 2 rotors.
 """
 
 """

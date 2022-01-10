@@ -33,15 +33,44 @@ def a():
                 dist[i] = current[0] + 1
                 queue.put([current[0]+1,i])
 
-# a()
+a()
 
 """
 Part b:
-There are 10 different orderings that take 2 operations.
-There are 334 different orderings that take 6 operations.
+There are 11 different orderings that take 2 operations.
+There are 403 different orderings that take 6 operations.
+
+Didn't read this question properly.
+To get it to work with 2 and 6, just change the number in the b() function.
 """
 
 def b():
+    ending = set()
+    queue = [[0,"1234567"]]
+    while len(queue):
+        current = queue.pop(0)
+        if current[0] > 6:
+            continue
+        elif current[0] == 6:
+            ending.add(current[1])
+
+        left = current[1][1:4] + current[1][0] + current[1][4:]
+        right = current[1][0:3] + current[1][-1] + current[1][3:6]
+        midl = current[1][3] + current[1][:3] + current[1][4:]
+        midr = current[1][:3] + current[1][4:] + current[1][3]
+        moves = [left,right,midl,midr]
+        for i in moves:
+            queue.append([current[0]+1,i])
+    print(len(ending))
+
+# b()
+
+"""
+Part c:
+5674321 and 7654123 both take 14 operations to get to the final ending
+"""
+
+def c():
     out = {}
     for i in range(15):
         out[i] = 0
@@ -83,12 +112,7 @@ def b():
     print(out)
     print(fourteen)
 
-# b()
-
-"""
-Part c:
-5674321 and 7654123 both take 14 operations to get to the final ending
-"""
+# c()
 
 """
 Part d:
