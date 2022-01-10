@@ -38,7 +38,7 @@ def a():
     score += permutations([],[i for i in range(5)])
     print(score)
 
-# a()
+a()
 
 """
 Part b:
@@ -63,4 +63,4 @@ def c():
                             out += 1
     print(out)
 
-c()
+# c()
