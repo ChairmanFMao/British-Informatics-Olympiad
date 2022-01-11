@@ -1,54 +1,93 @@
-string = input()
-s, p = (int(x) for x in input().split())
+import time
 
-def count(letter, steps):
-    if letter == "A":
-        a, b = 1, 0
-        for i in range(steps):
-            a, b = b, a + b
-        return a + b
+from collections import deque,defaultdict
 
-    if letter == "B":
-        a, b = 0, 1
-        for i in range(steps):
-            a, b = b, a + b
-        return a + b
 
-    if letter == "C":
-        return 2 ** steps
+s = list(input())
+steps, p = list(map(int, input().split()))
+start = time.time()
 
-    if letter == "D":
-        return 2 ** steps
+def total(d):
+    return sum([i for i in d.values()])
 
-    if letter == "E":
-        return 2 ** steps
+def merge(a,b):
+    for i in b:
+        a[i] += b[i]
+    return a
 
-ans = ""
+from functools import lru_cache
 
-def change(word):
-    new = ""
-    for letter in word:
-        if letter == "A":
-            new += "B"
-        elif letter == "B":
-            new += "AB"
-        elif letter == "C":
-            new += "CD"
-        elif letter == "D":
-            new += "DC"
-        elif letter == "E":
-            new += "EE"
-    return new
+@lru_cache(maxsize=None)
+def fib(n):
+    if n==0:
+        return 0
+    elif n==1:
+        return 1
+    return fib(n-1)+fib(n-2)
 
-for j in range(s, 0, -1):
-    t = p
-    for i in range(len(string)):
-        x = count(string[i], j)
-        if x >= t:
-            string = change(string[:i+1])
-            break
-        else:
-            t -= x
-temp = string[:p]
-ans = f"{temp.count('A')} {temp.count('B')} {temp.count('C')} {temp.count('D')} {temp.count('E')}"
-print(ans)
+
+def solve(letter, steps):
+    if steps==0:
+        di = defaultdict(int)
+        di[letter] = 1
+        return di
+    if letter=="A":
+        di = defaultdict(int)
+        di["A"] = fib(steps-1)
+        di["B"] = fib(steps)
+        return di
+    elif letter=="B":
+        di = defaultdict(int)
+        di["B"] = fib(steps+1)
+        di["A"] = fib(steps)
+        return di
+    elif letter=="C":
+        di = defaultdict(int)
+        di["C"] = 2**(steps-1)
+        di["D"] = 2**(steps-1)
+        return di
+    elif letter=="D":
+        di = defaultdict(int)
+        di["D"] = 2**(steps-1)
+        di["C"] = 2**(steps-1)
+        return di
+    else:
+        di = defaultdict(int)
+        di["E"] = 2**steps
+        return di
+
+
+lookup = {"A":"B", "B":"AB", "C":"CD", "D":"DC", "E":"EE"}
+import time
+startTime = time.time()
+
+doing = deque()
+
+for i in s:
+    doing.insert(0, (i, 0))
+ans = defaultdict(int)
+while doing and p:
+
+
+    ne,depth = doing.pop()
+    score = solve(ne, steps-depth)
+    #print(ne, depth, score)
+    if total(score) <= p:
+        #print("ADDING", score, ne, depth)
+        p -= total(score)
+        ans = merge(ans, score)
+    else:
+        #print("CAN'T ADD", ne, depth, score)
+        flag = False
+        for i in lookup[ne][::-1]:
+            if depth+1 <= steps:
+                doing.append((i, depth+1))
+            else:
+                break
+#print(ans)
+for i in "ABCDE":
+    print(ans[i], end=" ")
+
+
+print("\n", end="")
+print(f"FINISHED IN {time.time()-startTime}")
