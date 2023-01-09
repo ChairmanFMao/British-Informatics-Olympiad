@@ -1,5 +1,10 @@
 s1, s2 = input().split()
 
+""" Note from later me:
+It turns out it actually was recursive and I coded it up correcty
+in the 1v2.py file
+"""
+
 def pat(s):
     if len(s) == 1:
         return "YES"
